@@ -3,6 +3,8 @@
 {% block title %}My Blog{% endblock %}
 
 {% block content %}
+
+
 <div class="container">
     <h1>Blog Posts</h1>
 
@@ -10,32 +12,21 @@
         <article class="post">
             <h2>
                 <a href="{% url 'post_detail' post.id %}">
-	            {{ post.id }} | {{ post.title }}
+                    {{ post.title }}
                 </a>
             </h2>
 
-            <p class="meta">
+            <div class="post-meta">
                 Published on 
-                <time datetime="{{ post.published_date|date:'c' }}">
-                    {{ post.published_date|date:"F d, Y H:i" }}
-                </time>
+                {{ post.published_date|date:"F d, Y H:i" }}
                 by {{ post.author.username }}
-            </p>
-
-            <div class="excerpt">
-                {{ post.content|truncatewords:30 }}
             </div>
 
-            <a href="{% url 'post_detail' post.id %}">
+            <a class="read-more" href="{% url 'post_detail' post.id %}">
                 Read more →
             </a>
-
         </article>
-
-        <hr>
-    {% empty %}
-        <p>No posts available.</p>
     {% endfor %}
 </div>
-{% endblock %}
 
+{% endblock %}
