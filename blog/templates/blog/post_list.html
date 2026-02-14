@@ -1,24 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Test blog</title>
-    </head>
-    <body>
-        <header>
-            <h1><a href="/">My Test Blog</a></h1>
-        </header>
+{% extends "base.html" %}
 
-        <article>
-            <time>published: 14.06.2024, 12:14</time>
-            <h2><a href="">My first post</a></h2>
-            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Blog Posts</h1>
+
+    {% for post in posts %}
+        <article class="post">
+            <h2>
+                <a href="{% url 'post_detail' post.id %}">
+	            {{ post.id }} | {{ post.title }}
+                </a>
+            </h2>
+
+            <p class="meta">
+                Published on 
+                <time datetime="{{ post.published_date|date:'c' }}">
+                    {{ post.published_date|date:"F d, Y H:i" }}
+                </time>
+                by {{ post.author.username }}
+            </p>
+
+            <div class="excerpt">
+                {{ post.content|truncatewords:30 }}
+            </div>
+
+            <a href="{% url 'post_detail' post.id %}">
+                Read more →
+            </a>
+
         </article>
 
-        <article>
-            <time>published: 14.06.2024, 12:14</time>
-            <h2><a href="">My second post</a></h2>
-            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
-        </article>
-    </body>
-</html>
+        <hr>
+    {% empty %}
+        <p>No posts available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
 
